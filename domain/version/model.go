@@ -13,5 +13,5 @@ type Version struct {
 
 // TableName ...
 func (*Version) TableName() string {
-	return "versions"
+	return "version"
 }

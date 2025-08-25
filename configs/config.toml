@@ -10,7 +10,13 @@
 
 [Data]
   [Data.Database]
-    Dsn = './configs/data.db'
+    # mysql postgres sqlite
+    DBType = "mysql"
+    # postgres: host=%s port=%s user=%s dbname=%s password=%s sslmode=%s
+    # postgres: DSN="host=127.0.0.1 port=5432 user=root dbname=n9e_v6 password=1234 sslmode=disable"
+    # mysql: DSN="root:1234@tcp(localhost:3306)/n9e_v6?charset=utf8mb4&parseTime=True&loc=Local"
+    # Dsn = './configs/data.db'
+    Dsn = 'bugsmo:q185500*@tcp(localhost:3306)/chunyu?charset=utf8mb4&parseTime=True&loc=Local'
     MaxIdleConns = 1
     MaxOpenConns = 1
     ConnMaxLifetime = '6h0m0s'

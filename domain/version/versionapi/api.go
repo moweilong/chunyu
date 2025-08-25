@@ -11,8 +11,8 @@ import (
 
 // 通过修改版本号，来控制是否执行表迁移
 var (
-	DBVersion = "0.0.1"
-	DBRemark  = "debug"
+	DBVersion = "0.0.5"
+	DBRemark  = "新增用户模块"
 )
 
 // NewVersionCore ...

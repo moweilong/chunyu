@@ -16,6 +16,7 @@ func NewDB(db *gorm.DB) DB {
 }
 
 // AutoMigrate ...
+// TODO 自动迁移 creat_at panic 待处理
 func (d DB) AutoMigrate(ok bool) DB {
 	if !ok {
 		return d

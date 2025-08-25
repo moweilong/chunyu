@@ -22,6 +22,7 @@ var (
 )
 
 // 自定义配置目录
+// TODO 配置文件路径参数无效
 var configDir = flag.String("conf", "./configs", "config directory, eg: -conf /configs/")
 
 func getBuildRelease() bool {

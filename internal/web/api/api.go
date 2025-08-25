@@ -40,7 +40,7 @@ func setupRouter(r *gin.Engine, uc *Usecase) {
 	r.Any("/health", web.WarpH(uc.getHealth))
 	r.GET("/app/metrics/api", web.WarpH(uc.getMetricsAPI))
 
-	versionapi.Register(r, uc.Version, auth)
+	versionapi.Register(r, uc.Version)
 	registerUser(r, uc.UserAPI, auth)
 }
 

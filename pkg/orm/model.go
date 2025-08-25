@@ -4,6 +4,7 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"strconv"
 	"strings"
 	"time"
@@ -59,6 +60,9 @@ func (d *ModelWithStrID) BeforeUpdate(*gorm.DB) error {
 func (d *Model) BeforeCreate(*gorm.DB) error {
 	d.CreatedAt = Now()
 	d.UpdatedAt = Now()
+	slog.Info("Model BeforeCreate", "id", d.ID)
+	slog.Info("Model BeforeCreate", "created_at", d.CreatedAt)
+	slog.Info("Model BeforeCreate", "updated_at", d.UpdatedAt)
 	return nil
 }
 
