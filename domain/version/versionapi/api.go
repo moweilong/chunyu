@@ -11,8 +11,8 @@ import (
 
 // 通过修改版本号，来控制是否执行表迁移
 var (
-	DBVersion = "0.0.5"
-	DBRemark  = "新增用户模块"
+	DBVersion = "0.0.6"
+	DBRemark  = "去除orm模型的默认时间戳"
 )
 
 // NewVersionCore ...

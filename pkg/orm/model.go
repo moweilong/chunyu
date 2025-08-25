@@ -4,7 +4,6 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"fmt"
-	"log/slog"
 	"strconv"
 	"strings"
 	"time"
@@ -35,15 +34,15 @@ type Scaner interface {
 // sqlite 不支持 default:now()，支持 CURRENT_TIMESTAMP
 type Model struct {
 	ID        int  `gorm:"primaryKey;" json:"id"`
-	CreatedAt Time `gorm:"notNull;default:CURRENT_TIMESTAMP;index;comment:创建时间" json:"created_at"`
-	UpdatedAt Time `gorm:"notNull;default:CURRENT_TIMESTAMP;comment:更新时间" json:"updated_at"`
+	CreatedAt Time `gorm:"notNull;index;comment:创建时间" json:"created_at"`
+	UpdatedAt Time `gorm:"notNull;comment:更新时间" json:"updated_at"`
 }
 
 // ModelWithStrID string id 模型
 type ModelWithStrID struct {
 	ID        string `gorm:"primaryKey;" json:"id"`
-	CreatedAt Time   `gorm:"notNull;default:CURRENT_TIMESTAMP;index;comment:创建时间" json:"created_at"`
-	UpdatedAt Time   `gorm:"notNull;default:CURRENT_TIMESTAMP;comment:更新时间" json:"updated_at"`
+	CreatedAt Time   `gorm:"notNull;index;comment:创建时间" json:"created_at"`
+	UpdatedAt Time   `gorm:"notNull;comment:更新时间" json:"updated_at"`
 }
 
 func (d *ModelWithStrID) BeforeCreate(*gorm.DB) error {
@@ -60,9 +59,7 @@ func (d *ModelWithStrID) BeforeUpdate(*gorm.DB) error {
 func (d *Model) BeforeCreate(*gorm.DB) error {
 	d.CreatedAt = Now()
 	d.UpdatedAt = Now()
-	slog.Info("Model BeforeCreate", "id", d.ID)
-	slog.Info("Model BeforeCreate", "created_at", d.CreatedAt)
-	slog.Info("Model BeforeCreate", "updated_at", d.UpdatedAt)
+	fmt.Println("BeforeCreate 被调用，设置时间：", d.CreatedAt, d.UpdatedAt)
 	return nil
 }
 

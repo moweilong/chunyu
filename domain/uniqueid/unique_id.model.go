@@ -5,8 +5,8 @@ import "github.com/moweilong/chunyu/pkg/orm"
 
 // UniqueID domain model
 type UniqueID struct {
-	ID        string   `gorm:"primaryKey" json:"id"`                                                               // 唯一 id
-	CreatedAt orm.Time `gorm:"column:created_at;notNull;default:CURRENT_TIMESTAMP;comment:创建时间" json:"created_at"` // 创建时间
+	ID        string   `gorm:"primaryKey" json:"id"`                                     // 唯一 id
+	CreatedAt orm.Time `gorm:"column:created_at;notNull;comment:创建时间" json:"created_at"` // 创建时间
 }
 
 // TableName database table name
