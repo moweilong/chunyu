@@ -41,6 +41,7 @@ func setupRouter(r *gin.Engine, uc *Usecase) {
 	r.GET("/app/metrics/api", web.WarpH(uc.getMetricsAPI))
 
 	versionapi.Register(r, uc.Version, auth)
+	registerUser(r, uc.UserAPI, auth)
 }
 
 type getHealthOutput struct {
