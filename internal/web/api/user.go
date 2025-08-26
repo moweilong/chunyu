@@ -1,6 +1,9 @@
 package api
 
 import (
+	"os"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/moweilong/chunyu/domain/uniqueid"
 	"github.com/moweilong/chunyu/internal/core/user"
@@ -44,7 +47,10 @@ func (h *UserAPI) getUser(c *gin.Context, _ *struct{}) (any, error) {
 }
 
 func (h *UserAPI) editUser(c *gin.Context, in *user.EditUserInput) (any, error) {
-	userID := c.Param("id")
+	userID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return nil, err
+	}
 	return h.userCore.EditUser(c.Request.Context(), userID, in)
 }
 
@@ -55,4 +61,34 @@ func (h *UserAPI) addUser(c *gin.Context, in *user.AddUserInput) (any, error) {
 func (h *UserAPI) delUser(c *gin.Context, _ *struct{}) (any, error) {
 	userID := c.Param("id")
 	return h.userCore.DelUser(c.Request.Context(), userID)
+}
+
+// initRoot 初始化管理员密码
+func (h *UserAPI) InitRoot(c *gin.Context, _ *struct{}) bool {
+	root, err := h.userCore.GetUserByUsername(c.Request.Context(), "root")
+	if err != nil {
+		os.Exit(1)
+	}
+	if root == nil {
+		return false
+	}
+	if len(root.Password) > 31 {
+		// already done before
+		return false
+	}
+	// 加密密码
+	encryptedPassword, err := web.Encrypt(root.Password)
+	if err != nil {
+		os.Exit(1)
+	}
+	root.Password = encryptedPassword
+	// 更新用户密码
+	in := user.EditUserInput{
+		Password: encryptedPassword,
+	}
+	_, err = h.userCore.EditUser(c.Request.Context(), root.ID, &in)
+	if err != nil {
+		os.Exit(1)
+	}
+	return true
 }

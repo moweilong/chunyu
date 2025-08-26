@@ -59,7 +59,7 @@ func (c *Core) AddUser(ctx context.Context, in *AddUserInput) (*User, error) {
 }
 
 // EditUser Update object information
-func (c *Core) EditUser(ctx context.Context, id string, in *EditUserInput) (*User, error) {
+func (c *Core) EditUser(ctx context.Context, id int, in *EditUserInput) (*User, error) {
 	var out User
 	if err := c.store.User().Edit(ctx, &out, func(b *User) {
 		if err := copier.Copy(b, in); err != nil {
@@ -80,4 +80,14 @@ func (c *Core) DelUser(ctx context.Context, id string) (*User, error) {
 	return &out, nil
 }
 
-// TODO GetUserByUsername
+// GetUserByUsername 根据用户名查询用户
+func (c *Core) GetUserByUsername(ctx context.Context, username string) (*User, error) {
+	var out User
+	if err := c.store.User().Get(ctx, &out, orm.Where("username = ?", username)); err != nil {
+		if orm.IsErrRecordNotFound(err) {
+			return nil, reason.ErrNotFound.Withf(`Get err[%s]`, err.Error())
+		}
+		return nil, reason.ErrDB.Withf(`Get err[%s]`, err.Error())
+	}
+	return &out, nil
+}

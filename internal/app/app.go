@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"syscall"
 
+	"github.com/moweilong/chunyu/domain/version/versionapi"
 	"github.com/moweilong/chunyu/internal/config"
 	"github.com/moweilong/chunyu/pkg/logger"
 	"github.com/moweilong/chunyu/pkg/server"
@@ -16,6 +17,9 @@ import (
 )
 
 func Run(bc *config.Bootstrap) {
+	// ctx, cancel := context.WithCancel(context.Background())
+	// defer cancel()
+
 	// 以可执行文件所在目录为工作目录，防止以服务方式运行时，工作目录切换到其它位置
 	bin, _ := os.Executable()
 	if err := os.Chdir(filepath.Dir(bin)); err != nil {
@@ -24,6 +28,10 @@ func Run(bc *config.Bootstrap) {
 
 	log, clean := SetupLog(bc)
 	defer clean()
+
+	// 如果需要执行表迁移，递增此版本号和表更新说明
+	versionapi.DBVersion = "0.0.7"
+	versionapi.DBRemark = "user表结构优化"
 
 	handler, cleanUp, err := WireApp(bc, log)
 	if err != nil {

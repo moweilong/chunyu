@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/moweilong/chunyu/pkg/reason"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // 为确保兼容性，以下值不可更改
@@ -210,4 +211,15 @@ func NewToken(data map[string]any, secret string, opts ...TokenOptions) (string,
 	}
 	tc := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return tc.SignedString([]byte(secret))
+}
+
+// Encrypt encrypts the plain text with bcrypt.
+func Encrypt(source string) (string, error) {
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(source), bcrypt.DefaultCost)
+	return string(hashedBytes), err
+}
+
+// Compare compares the encrypted text with the plain text if it's the same.
+func Compare(hashedPassword, password string) error {
+	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }

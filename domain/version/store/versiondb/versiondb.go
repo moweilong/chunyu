@@ -2,6 +2,7 @@ package versiondb
 
 import (
 	"github.com/moweilong/chunyu/domain/version"
+	"github.com/moweilong/chunyu/pkg/orm"
 	"gorm.io/gorm"
 )
 
@@ -21,6 +22,7 @@ func (d DB) AutoMigrate(ok bool) DB {
 	if !ok {
 		return d
 	}
+	orm.SetEnabledAutoMigrate(true) // 全局开启自动迁移
 	if err := d.db.AutoMigrate(
 		new(version.Version),
 	); err != nil {
