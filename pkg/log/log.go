@@ -16,7 +16,7 @@ import (
 )
 
 // SetupSlog 初始化 slog
-func SetupSlog(opts *Options) (*slog.Logger, func()) {
+func SetupSlog(opts *Options) func() {
 	// 应用 zap 日志等级
 	SetLevel(opts.Level)
 	// 采样率默认配置
@@ -47,7 +47,7 @@ func SetupSlog(opts *Options) (*slog.Logger, func()) {
 	if err == nil {
 		_ = SetCrashOutput(file)
 	}
-	return log, func() {
+	return func() {
 		if file != nil {
 			file.Close()
 		}

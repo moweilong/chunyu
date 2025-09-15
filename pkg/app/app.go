@@ -350,5 +350,6 @@ func (app *App) initializeLogger() {
 	}
 
 	// Initialize logging with custom context extractors
-	logger, closer := log.SetupSlog(logOptions)
+	closer := log.SetupSlog(logOptions)
+	defer closer()
 }

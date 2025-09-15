@@ -8,6 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.10.1
 	github.com/go-kratos/kratos/v2 v2.9.0
 	github.com/google/wire v0.7.0
+	github.com/gorilla/mux v1.8.1
 	github.com/gosuri/uitable v0.0.4
 	github.com/jinzhu/copier v0.4.0
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
