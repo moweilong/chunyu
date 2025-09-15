@@ -23,10 +23,17 @@ type Options struct {
 
 func NewOptions() *Options {
 	return &Options{
+		ID:           "test",
+		Dir:          "./logs",
+		Version:      "0.0.1",
+		Debug:        true,
 		MaxAge:       7 * 24 * time.Hour,
-		RotationTime: 24 * time.Hour,
-		RotationSize: 100 * 1024 * 1024,
-		Level:        "info",
+		RotationTime: 1 * time.Hour,
+		RotationSize: 1 * 1024 * 1024,
+		Level:        "debug",
+		TickSec:      1,
+		First:        5,
+		Thereafter:   5,
 	}
 }
 

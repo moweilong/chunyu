@@ -116,20 +116,3 @@ func NewJSONLogger(debug bool, w io.Writer, opt *Options) *zap.Logger {
 func SetCrashOutput(f *os.File) error {
 	return debug.SetCrashOutput(f, debug.CrashOptions{})
 }
-
-// NewDefaultConfig 创建默认配置
-func NewDefaultConfig() Options {
-	return Options{
-		ID:           "test",
-		Dir:          "./logs",
-		Version:      "0.0.1",
-		Debug:        true,
-		MaxAge:       7 * 24 * time.Hour,
-		RotationTime: 1 * time.Hour,
-		RotationSize: 1 * 1024 * 1024,
-		Level:        "debug",
-		TickSec:      1,
-		First:        5,
-		Thereafter:   5,
-	}
-}
